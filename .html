@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéWorld - O Universo Pokémon</title>
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #3b4cca;
+            --text-color: #333;
+            --background-light: #f8f8f8;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--background-light);
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1542779283-429940ce8336?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .high-contrast {
+            --primary-color: #000000;
+            --secondary-color: #ffffff;
+            --text-color: #000000;
+            --background-light: #ffffff;
+        }
+
+        .dark-mode {
+            --primary-color: #ff3333;
+            --secondary-color: #6699ff;
+            --text-color: #ffffff;
+            --background-light: #222222;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .accessibility-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .accessibility-btn {
+            background: none;
+            border: 1px solid #333;
+            padding: 5px 10px;
+            margin: 0 2px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            padding: 0.5rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav li {
+            margin: 0 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pokemon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pokemon-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            border: 2px solid var(--primary-color);
+        }
+
+        .pokemon-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pokemon-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background-color: #f0f0f0;
+        }
+
+        .pokemon-card .info {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .pokemon-card h3 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .pokemon-card p {
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: -10000px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .skip-link:focus {
+            position: static;
+            width: auto;
+            height: auto;
+            padding: 5px;
+            background: #000;
+            color: #fff;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+    
+    <header>
+        <h1>PokéWorld</h1>
+        <p>O Universo Pokémon em um só lugar!</p>
+        
+        <div class="accessibility-panel">
+            <button class="accessibility-btn" id="contrast-btn">Alto Contraste</button>
+            <button class="accessibility-btn" id="dark-btn">Modo Escuro</button>
+            <button class="accessibility-btn" id="font-increase">A+</button>
+            <button class="accessibility-btn" id="font-decrease">A-</button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#pokedex">Pokédex</a></li>
+            <li><a href="#types">Tipos Pokémon</a></li>
+            <li><a href="#games">Jogos</a></li>
+            <li><a href="#about">Sobre</a></li>
+        </ul>
+    </nav>
+    
+    <main id="main-content">
+        <section>
+            <h2>Pokémons em Destaque</h2>
+            <div class="pokemon-grid">
+                <div class="pokemon-card" tabindex="0" role="article" aria-label="Pikachu - Tipo Elétrico">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu - Pokémon amarelo do tipo Elétrico">
+                    <div class="info">
+                        <h3>Pikachu</h3>
+                        <p>Tipo: Elétrico</p>
+                        <p>Nº: 025</p>
+                    </div>
+                </div>
+                
+                <div class="pokemon-card" tabindex="0" role="article" aria-label="Charizard - Tipo Fogo e Voador">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" alt="Charizard - Pokémon dragão laranja do tipo Fogo e Voador">
+                    <div class="info">
+                        <h3>Charizard</h3>
+                        <p>Tipo: Fogo, Voador</p>
+                        <p>Nº: 006</p>
+                    </div>
+                </div>
+                
+                <div class="pokemon-card" tabindex="0" role="article" aria-label="Bulbasaur - Tipo Grama e Venenoso">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="Bulbasaur - Pokémon verde com uma planta nas costas do tipo Grama e Venenoso">
+                    <div class="info">
+                        <h3>Bulbasaur</h3>
+                        <p>Tipo: Grama, Venenoso</p>
+                        <p>Nº: 001</p>
+                    </div>
+                </div>
+                
+                <div class="pokemon-card" tabindex="0" role="article" aria-label="Squirtle - Tipo Água">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" alt="Squirtle - Pokémon tartaruga azul do tipo Água">
+                    <div class="info">
+                        <h3>Squirtle</h3>
+                        <p>Tipo: Água</p>
+                        <p>Nº: 007</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Notícias Pokémon</h2>
+            <article>
+                <h3>Novo jogo Pokémon anunciado</h3>
+                <p>A The Pokémon Company anunciou o lançamento de um novo jogo para 2023, com gráficos revolucionários e novas espécies de Pokémon.</p>
+            </article>
+            
+            <article>
+                <h3>Campeonato Mundial de Pokémon</h3>
+                <p>O torneio mundial deste ano acontecerá em Londres, com participantes de mais de 50 países competindo pelo título de Mestre Pokémon.</p>
+            </article>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 PokéWorld - Todos os direitos reservados</p>
+        <p>Este site não é afiliado à Nintendo ou The Pokémon Company.</p>
+    </footer>
+
+    <script>
+        // Funções de acessibilidade
+        document.addEventListener('DOMContentLoaded', function() {
+            // Alto contraste
+            const contrasteBtn = document.getElementById('contrast-btn');
+            contrasteBtn.addEventListener('click', function() {
+                document.body.classList.toggle('high-contrast');
+                localStorage.setItem('highContrast', document.body.classList.contains('high-contrast'));
+            });
+            
+            // Modo escuro
+            const darkBtn = document.getElementById('dark-btn');
+            darkBtn.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            });
+            
+            // Tamanho da fonte
+            const fontIncrease = document.getElementById('font-increase');
+            const fontDecrease = document.getElementById('font-decrease');
+            
+            fontIncrease.addEventListener('click', function() {
+                changeFontSize(1);
+            });
+            
+            fontDecrease.addEventListener('click', function() {
+                changeFontSize(-1);
+            });
+            
+            function changeFontSize(direction) {
+                const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+                const newSize = currentSize + (direction * 2);
+                document.body.style.fontSize = newSize + 'px';
+                localStorage.setItem('fontSize', newSize);
+            }
+            
+            // Verificar preferências salvas
+            if (localStorage.getItem('highContrast') === 'true') {
+                document.body.classList.add('high-contrast');
+            }
+            
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+            
+            if (localStorage.getItem('fontSize')) {
+                document.body.style.fontSize = localStorage.getItem('fontSize') + 'px';
+            }
+            
+            // Navegação por teclado
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-navigation');
+                }
+            });
+            
+            document.addEventListener('mousedown', function() {
+                document.body.classList.remove('keyboard-navigation');
+            });
+        });
+    </script>
+</body>
+</html>
